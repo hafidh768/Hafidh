@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Booking - Keraton Pictures</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background: linear-gradient(120deg, #ff6347, #ff4500, #ff0000);
+        background-size: 400% 400%;
+        animation: GradientBackground 15s ease infinite;
+        color: #ff4500;
+      }
+
+      .login-container {
+        width: 360px;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+
+      h1 {
+        color: #ff4500;
+        margin-bottom: 20px;
+      }
+
+      select,
+      input,
+      button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        border: 2px solid #ff4500;
+        border-radius: 8px;
+        font-size: 16px;
+      }
+
+      .total {
+        margin-top: 10px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #555;
+      }
+
+      button {
+        background-color: #ff4500;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #ff6347;
+      }
+
+      .back-button {
+        background-color: #ffe5e5;
+        color: #ff4500;
+        margin-top: 20px;
+      }
+
+      .back-button:hover {
+        background-color: #ffc5c5;
+      }
+
+      @keyframes GradientBackground {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h1>Book Your Package</h1>
+      <form id="bookingForm">
+        <label for="package">Select Package:</label>
+        <select id="package" name="package" onchange="updatePrice()">
+          <option value="wedding" data-price="3000000">
+            Wedding Package - Rp 3,000,000
+          </option>
+          <option value="family" data-price="2000000">
+            Family Package - Rp 2,000,000
+          </option>
+          <option value="graduation" data-price="1500000">
+            Graduation Package - Rp 1,500,000
+          </option>
+          <option value="prewedding" data-price="2500000">
+            Prewedding Package - Rp 2,500,000
+          </option>
+          <option value="maternity" data-price="1800000">
+            Maternity Package - Rp 1,800,000
+          </option>
+        </select>
+        <div class="total">
+          Total: Rp <span id="totalPrice">3,000,000</span>
+        </div>
+        <input
+          type="text"
+          name="bookingName"
+          placeholder="Enter booking name"
+          required
+        />
+        <input
+          type="text"
+          name="location"
+          placeholder="Enter location"
+          required
+        />
+        <input type="date" name="date" required />
+        <button type="button" onclick="submitBooking()">Submit Booking</button>
+        <button
+          type="button"
+          class="back-button"
+          onclick="window.location.href='index.html';"
+        >
+          Back to Home
+        </button>
+      </form>
+    </div>
+
+    <script>
+      function updatePrice() {
+        const packageDropdown = document.getElementById("package");
+        const selectedPackage =
+          packageDropdown.options[packageDropdown.selectedIndex];
+        const packagePrice = selectedPackage.getAttribute("data-price");
+        document.getElementById("totalPrice").textContent =
+          parseInt(packagePrice).toLocaleString("id-ID");
+      }
+
+      function submitBooking() {
+        const packageDropdown = document.getElementById("package");
+        const selectedPackage =
+          packageDropdown.options[packageDropdown.selectedIndex];
+        const packageName = selectedPackage.value;
+        const packagePrice = selectedPackage.getAttribute("data-price");
+        const bookingName = document.querySelector(
+          'input[name="bookingName"]'
+        ).value;
+        const location = document.querySelector('input[name="location"]').value;
+        const date = document.querySelector('input[name="date"]').value;
+
+        if (packageName && bookingName && location && date) {
+          window.location.href = `payment.html?package=${packageName}&price=${packagePrice}&bookingName=${encodeURIComponent(
+            bookingName
+          )}&location=${encodeURIComponent(location)}&date=${encodeURIComponent(
+            date
+          )}`;
+        } else {
+          alert("Please fill in all the fields.");
+        }
+      }
+    </script>
+  </body>
+</html>
